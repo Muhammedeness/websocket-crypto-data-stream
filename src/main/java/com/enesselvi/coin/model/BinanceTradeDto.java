@@ -115,11 +115,24 @@ public class BinanceTradeDto {
         T_tradeTime = t_tradeTime;
     }
 
-
     public Boolean getM_marketMaker() {
         return m_marketMaker;
     }
     public void setM_marketMaker(Boolean m_marketMaker) {
         this.m_marketMaker = m_marketMaker;
     }
+    @Override
+    public String toString() {
+        return "BinanceTradeDto{" +
+                "e_eventType='" + e_eventType + '\'' +
+                ", E_number=" + E_number +
+                ", s_symbol='" + s_symbol + '\'' +
+                ", t_tradeId=" + t_tradeId +
+                ", p_price=" + p_price +
+                ", q_quantity=" + q_quantity +
+                ", T_tradeTime=" + T_tradeTime +
+                ", m_marketMaker=" + m_marketMaker +
+                '}';
+    }
+
 }
