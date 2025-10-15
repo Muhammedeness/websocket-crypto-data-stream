@@ -1,5 +1,6 @@
 package com.enesselvi.coin.config;
 
+import com.enesselvi.coin.service.ParserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
@@ -12,6 +13,13 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
 
     private static final Logger LOGGER   = LoggerFactory.getLogger(CustomWebSocketHandler.class);
 
+    //Constructor
+    private final ParserService parserService;
+
+    public CustomWebSocketHandler(ParserService parserService){
+        this.parserService = parserService;
+    }
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         LOGGER.info("CONNECTION ESTABLISHED WITH BINANCE SOCKET | sessionId: {}" , session.getId());
@@ -21,7 +29,7 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         LOGGER.info("RECEIVED MESSAGE FROM : {}  | MESSAGE : {}" , session.getId(),message.getPayload());
-         //TODO: Buraya JSON datayı handle edecek(parse edecek) service gelecek
+        parserService.ParseJsonToDto((String)message.getPayload());
     }
 
     @Override
