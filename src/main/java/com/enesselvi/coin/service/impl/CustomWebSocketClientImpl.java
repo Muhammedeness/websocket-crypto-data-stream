@@ -1,6 +1,6 @@
 package com.enesselvi.coin.service.impl;
 
-import com.enesselvi.coin.config.CustomWebSocketHandler;
+import com.enesselvi.coin.handler.CustomWebSocketHandler;
 import com.enesselvi.coin.service.CustomWebSocketClient;
 import com.enesselvi.coin.service.ParserService;
 import org.slf4j.Logger;

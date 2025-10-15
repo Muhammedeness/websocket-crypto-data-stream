@@ -1,4 +1,4 @@
-package com.enesselvi.coin.config;
+package com.enesselvi.coin.handler;
 
 import com.enesselvi.coin.model.BinanceTradeDto;
 import com.enesselvi.coin.service.ParserService;
