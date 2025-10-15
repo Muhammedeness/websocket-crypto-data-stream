@@ -1,5 +1,6 @@
 package com.enesselvi.coin.config;
 
+import com.enesselvi.coin.model.BinanceTradeDto;
 import com.enesselvi.coin.service.ParserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,8 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         LOGGER.info("RECEIVED MESSAGE FROM : {}  | MESSAGE : {}" , session.getId(),message.getPayload());
-        parserService.ParseJsonToDto((String)message.getPayload());
+        BinanceTradeDto trade= parserService.ParseJsonToDto((String)message.getPayload());
+        LOGGER.info("Binance Trade Data: {}",trade.toString());
     }
 
     @Override
