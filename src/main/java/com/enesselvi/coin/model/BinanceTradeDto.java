@@ -1,5 +1,8 @@
 package com.enesselvi.coin.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 /**
@@ -30,14 +33,30 @@ import java.math.BigDecimal;
         "M": true
 }
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BinanceTradeDto {
+    @JsonProperty("e")
     private  String     e_eventType;
+
+    @JsonProperty("E")
     private  Long     E_number;
+
+    @JsonProperty("s")
     private  String       s_symbol;
+
+    @JsonProperty("t")
     private  Long       t_tradeId;
+
+    @JsonProperty("p")
     private  BigDecimal p_price;
+
+    @JsonProperty("q")
     private  BigDecimal q_quantity;
+
+    @JsonProperty("T")
     private  Long       T_tradeTime;
+
+    @JsonProperty("m")
     private  Boolean    m_marketMaker;
 
 
