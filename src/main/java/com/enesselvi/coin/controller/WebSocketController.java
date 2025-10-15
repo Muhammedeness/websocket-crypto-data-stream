@@ -1,24 +1,27 @@
 package com.enesselvi.coin.controller;
 
-import com.enesselvi.coin.service.CustomWebSocketClient;
+import com.enesselvi.coin.common.WebSocketClientBase;
+import com.enesselvi.coin.common.WebSocketClientFactory;
+import com.enesselvi.coin.service.WebSocketClientAdapter;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class WebSocketController {
 
-    private final CustomWebSocketClient customWebSocketClient;
+    private final WebSocketClientFactory webSocketClientFactory;
 
-    public WebSocketController(CustomWebSocketClient customWebSocketClient) {
-        this.customWebSocketClient = customWebSocketClient;
+
+    public WebSocketController(WebSocketClientFactory webSocketClientFactory) {
+        this.webSocketClientFactory = webSocketClientFactory;
     }
 
-    @GetMapping("/connect/{symbol}")
-    public ResponseEntity<String> connect(@PathVariable String symbol){
-        customWebSocketClient.connect(symbol);
+    @GetMapping("/connect/{platform}/{symbol}")
+    public ResponseEntity<String> connect(@PathVariable String platform , @PathVariable String symbol, @RequestParam String uri){
+
+        WebSocketClientBase client = webSocketClientFactory.getClient(platform);
+        client.connect(symbol,uri);
         return ResponseEntity.ok().build();
 
     }

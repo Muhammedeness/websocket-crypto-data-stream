@@ -1,6 +1,6 @@
 package com.enesselvi.coin.service;
 
-public interface CustomWebSocketClient {
+public interface WebSocketClientAdapter {
 
     void connect(String symbol);
 

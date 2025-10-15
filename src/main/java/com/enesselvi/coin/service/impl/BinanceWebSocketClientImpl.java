@@ -1,7 +1,7 @@
 package com.enesselvi.coin.service.impl;
 
+import com.enesselvi.coin.common.WebSocketClientBase;
 import com.enesselvi.coin.handler.CustomWebSocketHandler;
-import com.enesselvi.coin.service.CustomWebSocketClient;
 import com.enesselvi.coin.service.ParserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,32 +13,45 @@ import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class CustomWebSocketClientImpl implements CustomWebSocketClient {
+public class BinanceWebSocketClientImpl extends WebSocketClientBase {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomWebSocketClientImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BinanceWebSocketClientImpl.class);
 
     private final ParserService parserService;
     private final StandardWebSocketClient client;
 
-    public CustomWebSocketClientImpl(ParserService parserService, StandardWebSocketClient client) {
+
+    public BinanceWebSocketClientImpl(ParserService parserService, StandardWebSocketClient client) {
         this.parserService = parserService;
         this.client = client;
     }
 
     @Override
-    public void connect(String symbol) {
+    public void connect(String symbol, String uri) {
         try {
-            String uri = String.format("wss://stream.binance.com:9443/ws/%s@trade" , symbol.toLowerCase());
             LOGGER.info("Connecting To Binance Websocket: {}",uri);
             CompletableFuture<WebSocketSession> sessionFuture = client.execute(
-                    new CustomWebSocketHandler(parserService) , String.valueOf(URI.create(uri))
+                    new CustomWebSocketHandler(parserService , this  , symbol) , String.valueOf(URI.create(uri))
             );
             sessionFuture.exceptionally(ex ->{
                 LOGGER.error("FAILED TO CONNECT TO BINANCE WEBSOCKET" , ex);
                 return null;
             });
-        }catch (Exception e){
+
+        } catch (Exception e) {
             LOGGER.error("Error Connecting to Binance Websocket" , e);
         }
     }
+
+    @Override
+    public String getSubscribeJson(String symbol) {
+        return String.format("""
+        {
+          "method": "SUBSCRIBE",
+          "params": [
+            "%1$s@trade"
+          ],
+          "id": 1
+        }
+        """, symbol.toLowerCase());    }
 }
