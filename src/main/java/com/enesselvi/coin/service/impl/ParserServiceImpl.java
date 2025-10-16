@@ -40,7 +40,7 @@ public class ParserServiceImpl implements ParserService {
      */
 
     @Override
-    public BinanceTradeDto ParseJsonToDto(String payload){
+    public BinanceTradeDto parseJsonToDto(String payload){
         try {
             LOGGER.info("Parsing JSON : {} to BinanceTradeDto" ,  payload);
             return objectMapper.readValue(payload , BinanceTradeDto.class);

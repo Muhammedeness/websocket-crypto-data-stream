@@ -33,7 +33,8 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
         LOGGER.info("CONNECTION ESTABLISHED WITH SOCKET | sessionId: {}" , session.getId());
         String subscribeJson = webSocketClientBase.getSubscribeJson(symbol);
         session.sendMessage(new TextMessage(subscribeJson));
-        LOGGER.info("SUCCESSFULLY SUBSCRIBED THIS SESSION");    }
+        LOGGER.info("SUCCESSFULLY SUBSCRIBED THIS SESSION");
+    }
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
@@ -52,7 +53,7 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
             LOGGER.debug("Heartbeat received, skipping.");
             return;
         }
-        BinanceTradeDto trade= parserService.ParseJsonToDto(payload);
+        BinanceTradeDto trade= parserService.parseJsonToDto(payload);
         count = count + 1;
         LOGGER.info("Binance Trade Data: {}",trade.toString());
     }
