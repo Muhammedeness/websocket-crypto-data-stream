@@ -2,11 +2,12 @@ package com.enesselvi.coin.controller;
 
 import com.enesselvi.coin.common.WebSocketClientBase;
 import com.enesselvi.coin.common.WebSocketClientFactory;
-import com.enesselvi.coin.service.WebSocketClientAdapter;
-
+import com.enesselvi.coin.model.ConnectionRequestDto;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/api/v1/ws/stream")
 @RestController
 public class WebSocketController {
 
@@ -17,11 +18,11 @@ public class WebSocketController {
         this.webSocketClientFactory = webSocketClientFactory;
     }
 
-    @GetMapping("/connect/{platform}/{symbol}")
-    public ResponseEntity<String> connect(@PathVariable String platform , @PathVariable String symbol, @RequestParam String uri){
+    @PostMapping("/connect")
+    public ResponseEntity<String> connect(@Valid @RequestBody ConnectionRequestDto requestDto){
 
-        WebSocketClientBase client = webSocketClientFactory.getClient(platform);
-        client.connect(symbol,uri);
+        WebSocketClientBase client = webSocketClientFactory.getClient(requestDto.getPlatform());
+        client.connect(requestDto.getSymbol(),requestDto.getUri());
         return ResponseEntity.ok().build();
 
     }
