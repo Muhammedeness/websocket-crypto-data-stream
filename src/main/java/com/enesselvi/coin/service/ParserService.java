@@ -8,5 +8,5 @@ public interface ParserService {
      * Parse json data to BinancaTradeDto
      * payload : websocket message  json data
      */
-     BinanceTradeDto ParseJsonToDto (String payload);
+     BinanceTradeDto parseJsonToDto(String payload);
 }
