@@ -1,6 +1,7 @@
 package com.enesselvi.coin.handler;
 
 import com.enesselvi.coin.common.WebSocketClientBase;
+import com.enesselvi.coin.common.WebSocketSessionManager;
 import com.enesselvi.coin.model.BinanceTradeDto;
 import com.enesselvi.coin.service.ParserService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,23 +10,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.*;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class CustomWebSocketHandler  implements WebSocketHandler {
 
 
     private static final Logger LOGGER   = LoggerFactory.getLogger(CustomWebSocketHandler.class);
-    int count=0;
-
+    private static final AtomicInteger globalCount= new AtomicInteger(0);
 
     //Constructor
     private final ParserService parserService;
     private final WebSocketClientBase webSocketClientBase;
     private final String symbol;
+    private final WebSocketSessionManager sessionManager;
 
 
-    public CustomWebSocketHandler(ParserService parserService, WebSocketClientBase webSocketClientBase, String symbol){
+    public CustomWebSocketHandler(ParserService parserService, WebSocketClientBase webSocketClientBase, String symbol, WebSocketSessionManager sessionManager){
         this.parserService = parserService;
         this.webSocketClientBase = webSocketClientBase;
         this.symbol = symbol;
+        this.sessionManager = sessionManager;
     }
 
     @Override
@@ -34,6 +39,7 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
         String subscribeJson = webSocketClientBase.getSubscribeJson(symbol);
         session.sendMessage(new TextMessage(subscribeJson));
         LOGGER.info("SUCCESSFULLY SUBSCRIBED THIS SESSION");
+        sessionManager.addSession(session.getId() , session);
     }
 
     @Override
@@ -54,7 +60,7 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
             return;
         }
         BinanceTradeDto trade= parserService.parseJsonToDto(payload);
-        count = count + 1;
+        globalCount.incrementAndGet();
         LOGGER.info("Binance Trade Data: {}",trade.toString());
     }
 
@@ -66,9 +72,8 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        LOGGER.info("DISCONNECTED WITH BINANCE SOCKET | sessionId: {}, closeStatus: {}" , session.getId() , closeStatus);
-        LOGGER.info("DATA COUNT: {}" , count);
-
+        LOGGER.info("DISCONNECTED WITH  SOCKET | sessionId: {}, closeStatus: {}" , session.getId() , closeStatus);
+        LOGGER.info("DATA COUNT: {}" , globalCount);
     }
 
     @Override

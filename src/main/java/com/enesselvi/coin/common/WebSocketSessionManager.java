@@ -19,8 +19,7 @@ public class WebSocketSessionManager {
     }
 
     public WebSocketSession getSession(String sessionId) {
-        WebSocketSession session = webSocketSessions.get(sessionId);
-        return session;
+        return webSocketSessions.get(sessionId);
     }
 
     public boolean isSessionOpen(String sessionId) {
