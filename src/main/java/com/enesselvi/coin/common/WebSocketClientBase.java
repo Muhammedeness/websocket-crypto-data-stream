@@ -7,5 +7,4 @@ public abstract class WebSocketClientBase{
     public abstract void disconnect(String sessionId , String symbol);
     public abstract String getSubscribeJson(String symbol);
     public abstract String getUnsubscribeJson(String symbol0);
-    //public abstract void  subscribe(String symbol , String uri);
 }

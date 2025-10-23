@@ -2,8 +2,6 @@ package com.enesselvi.coin.controller;
 
 import com.enesselvi.coin.common.WebSocketClientBase;
 import com.enesselvi.coin.common.WebSocketClientFactory;
-import com.enesselvi.coin.common.WebSocketSessionManager;
-import com.enesselvi.coin.handler.CustomWebSocketHandler;
 import com.enesselvi.coin.model.ConnectionRequestDto;
 import com.enesselvi.coin.model.DisconnectRequestDto;
 import jakarta.validation.Valid;
@@ -17,12 +15,10 @@ import java.util.concurrent.CompletableFuture;
 public class WebSocketController {
 
     private final WebSocketClientFactory webSocketClientFactory;
-    //private final WebSocketSessionManager sessionManager;
 
 
     public WebSocketController(WebSocketClientFactory webSocketClientFactory) {
         this.webSocketClientFactory = webSocketClientFactory;
-        //this.sessionManager = sessionManager;
     }
 
     @PostMapping("/connect")

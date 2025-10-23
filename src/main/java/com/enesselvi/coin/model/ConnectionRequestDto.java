@@ -1,7 +1,7 @@
 package com.enesselvi.coin.model;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 
 public class ConnectionRequestDto {
 

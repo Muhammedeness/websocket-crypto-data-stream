@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.*;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CustomWebSocketHandler  implements WebSocketHandler {
@@ -66,7 +65,6 @@ public class CustomWebSocketHandler  implements WebSocketHandler {
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        //LOGGER.error("Exception error on session: {} | Error: {}", session.getId() , exception);
         LOGGER.error(String.format("Exception ocurred while handling | WebSocket SessionId: {}, Error : {}" , session.getId() , exception));
     }
 

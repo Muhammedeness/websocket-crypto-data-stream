@@ -2,7 +2,6 @@ package com.enesselvi.coin.service.impl;
 
 import com.enesselvi.coin.model.BinanceTradeDto;
 import com.enesselvi.coin.service.ParserService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
